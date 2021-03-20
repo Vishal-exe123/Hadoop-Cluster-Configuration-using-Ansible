@@ -1,0 +1,20 @@
+- hosts: namenode
+  roles:
+          - namenoderole
+
+- hosts: datanodes
+  roles:
+          - datanoderole
+
+- hosts: clientnode
+  roles:
+          - clietnoderole  
+  tasks:
+  - name: checking the report of the cluster
+    command:  "hadoop  dfsadmin  -report"
+    register: x
+
+  - debug: 
+       var:  x 
+
+

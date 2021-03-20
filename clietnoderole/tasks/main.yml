@@ -1,0 +1,39 @@
+---
+# tasks file for clietnoderole
+- name:  Copying sotwares in the clientnode
+  copy:
+          src: "files/{{ item }}"
+          dest:  "/root/"
+  loop:
+          - jdk-8u171-linux-x64.rpm
+          - hadoop-1.2.1-1.x86_64.rpm
+
+- name:  Checking whether  Hadoop is installed or not
+  command: "rpm  -q  hadoop"
+  register:  x
+  ignore_errors: yes
+
+- name:  Checking whether  Java is installed or not
+  command: "java -version"
+  ignore_errors: yes
+  register: y
+
+- debug:
+      var: y
+
+- name:  Installing JDK
+  command:  "rpm  -ivh  jdk-8u171-linux-x64.rpm"
+  when:  y.rc != 0
+  ignore_errors:  yes
+
+- name:  Installing  hadoop
+  command:  "rpm  -ivh hadoop-1.2.1-1.x86_64.rpm  --force"
+  when:  x.rc != 0
+  ignore_errors:  yes
+
+
+- name:  Copying hdfs-site and core-site
+  template:
+          src:  "templates/core-site.xml"
+          dest:  "/etc/hadoop/core-site.xml"
+
