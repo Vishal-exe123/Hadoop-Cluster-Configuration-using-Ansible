@@ -1,1 +1,3 @@
-# arthtaskAnsibleHadoop11.1
+# Hadoop Cluster Configuration Using Ansible
+## Tools: Ansible, Hadoop, AWS
+## Languages: Bash Scripting and YAML
